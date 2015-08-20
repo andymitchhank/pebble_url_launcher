@@ -18,30 +18,8 @@ var locationOptions = {
 };
 
 var urls = Settings.option("urls");
-
-Settings.config(
-    { 
-        url: 'https://andrewhenry.me/test/pebble/urllauncher.php?json=' + encodeURIComponent(JSON.stringify(urls))
-    },
-    function(e) {
-        var config_data = JSON.parse(decodeURIComponent(e.response));
-        var settings_urls = Settings.option("urls");
-        if (config_data.action == "add") {
-            delete config_data.action;
-            if (!settings_urls) {
-                settings_urls = [];
-            }
-            settings_urls.push(config_data);
-        } else if (config_data.action == "delete") {
-            for (var i = 0; i < settings_urls.length; i++) { 
-                if (settings_urls[i].key == config_data.key) {
-                    settings_urls.splice(i, 1);
-                }
-            }            
-        }
-        Settings.option("urls", settings_urls);
-    }
-);
+var urlMenu = null;
+var responseCard = null;
 
 function contains(str1, str2) {
     if (str1.indexOf(str2) > -1) {
@@ -56,27 +34,27 @@ function ajaxRequest(url) {
             url: url
         },
         function(data, status, request) {
-            var responseCard = new UI.Card({
+            var tmpcard = new UI.Card({
                 title: 'Success',
                 body: data
             });    
-            responseCard.show();
+            tmpcard.show();
         },
         function(error, status, request) {
-            var responseCard = new UI.Card({
+            var tmpcard = new UI.Card({
                 title: 'Error',
                 body: error
             });    
-            responseCard.show();    
+            tmpcard.show();    
         }
     );  
 }
 
-if (typeof urls !== 'undefined' && urls.length > 0) {
-    var urlMenu = new UI.Menu({
+function showMenu() {
+    urlMenu = new UI.Menu({
         sections: [{
             title: "Urls",
-            items: urls
+            items: Settings.option("urls")
         }]
     });
     urlMenu.on('select', function(e) {
@@ -100,12 +78,71 @@ if (typeof urls !== 'undefined' && urls.length > 0) {
             ajaxRequest(url);
         }  
     });
-    urlMenu.show();
-} else {
-    var responseCard = new UI.Card({
+    urlMenu.show();    
+}
+
+function showNoUrls() {
+    responseCard = new UI.Card({
         title: 'No URLs',
         body: "You haven't setup any URLs yet. Go to the settings to add a new URL and then reload the watchapp."
     });    
-    responseCard.show();    
+    responseCard.show();        
 }
+
+function updateMenu() {
+    if (urlMenu !== null){
+        urlMenu.selection(function() {
+            urlMenu.items(0, Settings.option("urls"));
+        });  
+    }
+    urls = Settings.option("urls");
+    if ((typeof urls == 'undefined' || urls.length <= 0) && responseCard === null) {
+        showNoUrls();
+        urlMenu.hide();
+    } else if (responseCard !== null) {
+        showMenu();
+        responseCard.hide();
+        responseCard = null;        
+    }
+}
+
+function buildSettings() {
+    Settings.config(
+        { 
+            url: 'https://andrewhenry.me/test/pebble/urllauncher.php?json=' + encodeURIComponent(JSON.stringify(Settings.option("urls")))
+        },
+        function(e) {
+            var config_data = JSON.parse(decodeURIComponent(e.response));
+            var settings_urls = Settings.option("urls");
+            if (config_data.action == "add") {
+                delete config_data.action;
+                if (!settings_urls) {
+                    settings_urls = [];
+                }
+                settings_urls.push(config_data);
+            } else if (config_data.action == "delete") {
+                for (var i = 0; i < settings_urls.length; i++) { 
+                    if (settings_urls[i].key == config_data.key) {
+                        settings_urls.splice(i, 1);
+                    }
+                }            
+            }
+            Settings.option("urls", settings_urls);
+            buildSettings();
+            updateMenu();
+        }
+    );
+}
+
+function main() {
+    buildSettings();
+    if (typeof urls !== 'undefined' && urls.length > 0) {
+        showMenu();
+    } else {
+        showNoUrls();  
+    }
+}
+
+main();
+
 
