@@ -2,8 +2,8 @@ var UI = require('ui');
 var ajax = require('ajax');
 var Settings = require('settings');
 
-var LAT_VAR = '{{latitude}}';
-var LON_VAR = '{{longitude}}';
+var LAT_VAR = '[[latitude]]';
+var LON_VAR = '[[longitude]]';
 
 var locationOptions = {
     enableHighAccuracy: true, 
@@ -45,65 +45,66 @@ function ajaxRequest(url) {
 }
 
 function showMenu() {
-    urlMenu = new UI.Menu({
-        sections: [{
-            title: "URL Actions",
-            items: Settings.option("urls")
-        }]
-    });
-    urlMenu.on('select', function(e) {
-        var url = urls[e.itemIndex].url;
-        if (contains(url, LAT_VAR) || contains(url, LON_VAR)) {
-            navigator.geolocation.getCurrentPosition(
-                function (pos) { // success
-                    url = url.replace(LAT_VAR, pos.coords.latitude);
-                    url = url.replace(LON_VAR, pos.coords.longitude);
-                    ajaxRequest(url);
-                },
-                function (err) { // error
-                    var errorMessage = 'location error (' + err.code + '): ' + err.message;
-                    var responseCard = new UI.Card({
-                        title: 'Error',
-                        body: errorMessage
-                    });    
-                    responseCard.show();
-                }, locationOptions);
-        } else {
-            ajaxRequest(url);
-        }  
-    });
+    if (urlMenu === null) {
+        urlMenu = new UI.Menu({
+            sections: [{
+                title: "URL Actions",
+                items: Settings.option("urls")
+            }]
+        });
+        urlMenu.on('select', function(e) {
+            var url = urls[e.itemIndex].url;
+            if (contains(url, LAT_VAR) || contains(url, LON_VAR)) {
+                navigator.geolocation.getCurrentPosition(
+                    function (pos) { // success
+                        url = url.replace(LAT_VAR, pos.coords.latitude);
+                        url = url.replace(LON_VAR, pos.coords.longitude);
+                        ajaxRequest(url);
+                    },
+                    function (err) { // error
+                        var errorMessage = 'location error (' + err.code + '): ' + err.message;
+                        var responseCard = new UI.Card({
+                            title: 'Error',
+                            body: errorMessage
+                        });    
+                        responseCard.show();
+                    }, locationOptions);
+            } else {
+                ajaxRequest(url);
+            }  
+        });
+    } else {
+        urlMenu.items(0, Settings.option("urls"));
+    }
     urlMenu.show();    
 }
 
 function showNoUrls() {
     responseCard = new UI.Card({
         title: 'No URLs',
-        body: "You haven't setup any URLs yet. Go to the settings to add a new URL and then reload the watchapp."
+        body: "You haven't setup any URLs yet. Go to the settings to add a new URL."
     });    
     responseCard.show();        
 }
 
 function updateMenu() {
-    if (urlMenu !== null){
-        urlMenu.selection(function() {
-            urlMenu.items(0, Settings.option("urls"));
-        });  
-    }
     urls = Settings.option("urls");
     if ((typeof urls == 'undefined' || urls.length <= 0) && responseCard === null) {
         showNoUrls();
         urlMenu.hide();
-    } else if (responseCard !== null) {
+    } else {
         showMenu();
-        responseCard.hide();
-        responseCard = null;        
+        if (responseCard !== null) {
+            responseCard.hide();
+            responseCard = null;     
+        }
     }
 }
 
 function buildSettings() {
     Settings.config(
         { 
-            url: 'https://andrewhenry.me/test/pebble/urllauncher.php?json=' + encodeURIComponent(JSON.stringify(Settings.option("urls")))
+            url: 'https://andrewhenry.me/pebble/urllauncher.php?json=' + encodeURIComponent(JSON.stringify(Settings.option("urls")))
         },
         function(e) {
             var config_data = JSON.parse(decodeURIComponent(e.response));
