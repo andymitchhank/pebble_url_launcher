@@ -30,7 +30,7 @@
                 "type": "font"
             },
             {
-                "file": "images/icon.png",
+                "file": "resources/images/icon.png",
                 "menuIcon": true,
                 "name": "IMAGES_ICON_PNG",
                 "type": "png"
