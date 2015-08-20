@@ -21,7 +21,7 @@ var urls = Settings.option("urls");
 
 Settings.config(
     { 
-        url: 'http://test.andrewhenry.me/pebble/urllauncher.php?json=' + encodeURIComponent(JSON.stringify(urls))
+        url: 'https://andrewhenry.me/test/pebble/urllauncher.php?json=' + encodeURIComponent(JSON.stringify(urls))
     },
     function(e) {
         var config_data = JSON.parse(decodeURIComponent(e.response));
