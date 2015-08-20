@@ -30,9 +30,9 @@
                 "type": "font"
             },
             {
-                "file": "images/icon.png",
+                "file": "images/Pebble icon.png",
                 "menuIcon": true,
-                "name": "IMAGES_ICON_PNG",
+                "name": "IMAGES_PEBBLE_ICON_PNG",
                 "type": "png"
             }
         ]

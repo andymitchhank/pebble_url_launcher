@@ -1,9 +1,3 @@
-/**
- * Welcome to Pebble.js!
- *
- * This is where you write your app.
- */
-
 var UI = require('ui');
 var ajax = require('ajax');
 var Settings = require('settings');
@@ -53,7 +47,7 @@ function ajaxRequest(url) {
 function showMenu() {
     urlMenu = new UI.Menu({
         sections: [{
-            title: "Urls",
+            title: "URL Actions",
             items: Settings.option("urls")
         }]
     });
