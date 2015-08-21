@@ -10,7 +10,7 @@
     "resources": {
         "media": [
             {
-                "file": "images/icon.png",
+                "file": "images/menu_icon.png",
                 "name": "IMAGE_MENU_ICON",
                 "type": "png"
             },
@@ -30,9 +30,9 @@
                 "type": "font"
             },
             {
-                "file": "images/icon.png",
+                "file": "images/menu_icon.png",
                 "menuIcon": true,
-                "name": "IMAGES_ICON_PNG",
+                "name": "IMAGES_MENU_ICON_PNG",
                 "type": "png"
             }
         ]
