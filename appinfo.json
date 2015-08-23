@@ -41,7 +41,7 @@
     "shortName": "URL Launcher",
     "uuid": "bc8bcce0-1ea6-49b1-a3ad-b43cdc1eff74",
     "versionCode": 1,
-    "versionLabel": "1.0",
+    "versionLabel": "1.1",
     "watchapp": {
         "hiddenApp": false,
         "watchface": false

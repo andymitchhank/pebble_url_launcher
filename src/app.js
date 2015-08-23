@@ -1,6 +1,7 @@
 var UI = require('ui');
 var ajax = require('ajax');
 var Settings = require('settings');
+var Vibe = require('ui/vibe');
 
 var LAT_VAR = '[[latitude]]';
 var LON_VAR = '[[longitude]]';
@@ -28,15 +29,13 @@ function ajaxRequest(url) {
             url: url
         },
         function(data, status, request) {
-            var tmpcard = new UI.Card({
-                title: 'Success',
-                body: data
-            });    
-            tmpcard.show();
+            Vibe.vibrate('long');
         },
         function(error, status, request) {
+            Vibe.vibrate('double');
             var tmpcard = new UI.Card({
                 title: 'Error',
+                subtitle: status,
                 body: error
             });    
             tmpcard.show();    
@@ -104,25 +103,29 @@ function updateMenu() {
 function buildSettings() {
     Settings.config(
         { 
-            url: 'https://andrewhenry.me/pebble/urllauncher.php?json=' + encodeURIComponent(JSON.stringify(Settings.option("urls")))
+            url: 'https://andrewhenry.me/pebble/urllauncher1-1.php?json=' + encodeURIComponent(JSON.stringify(Settings.option("urls")))
         },
         function(e) {
             var config_data = JSON.parse(decodeURIComponent(e.response));
-            var settings_urls = Settings.option("urls");
-            if (config_data.action == "add") {
-                delete config_data.action;
-                if (!settings_urls) {
-                    settings_urls = [];
-                }
-                settings_urls.push(config_data);
-            } else if (config_data.action == "delete") {
-                for (var i = 0; i < settings_urls.length; i++) { 
-                    if (settings_urls[i].key == config_data.key) {
-                        settings_urls.splice(i, 1);
-                    }
-                }            
-            }
-            Settings.option("urls", settings_urls);
+            Settings.option("urls", config_data);
+            
+//------------ 8/22/2015 AMH || Replace URLS with return value instead of processing them like below
+//             var settings_urls = Settings.option("urls");
+//             if (config_data.action == "add") {
+//                 delete config_data.action;
+//                 if (!settings_urls) {
+//                     settings_urls = [];
+//                 }
+//                 settings_urls.push(config_data);
+//             } else if (config_data.action == "delete") {
+//                 for (var i = 0; i < settings_urls.length; i++) { 
+//                     if (settings_urls[i].key == config_data.key) {
+//                         settings_urls.splice(i, 1);
+//                     }
+//                 }            
+//             }
+//             Settings.option("urls", settings_urls);
+            
             buildSettings();
             updateMenu();
         }
