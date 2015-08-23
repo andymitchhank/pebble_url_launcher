@@ -108,24 +108,6 @@ function buildSettings() {
         function(e) {
             var config_data = JSON.parse(decodeURIComponent(e.response));
             Settings.option("urls", config_data);
-            
-//------------ 8/22/2015 AMH || Replace URLS with return value instead of processing them like below
-//             var settings_urls = Settings.option("urls");
-//             if (config_data.action == "add") {
-//                 delete config_data.action;
-//                 if (!settings_urls) {
-//                     settings_urls = [];
-//                 }
-//                 settings_urls.push(config_data);
-//             } else if (config_data.action == "delete") {
-//                 for (var i = 0; i < settings_urls.length; i++) { 
-//                     if (settings_urls[i].key == config_data.key) {
-//                         settings_urls.splice(i, 1);
-//                     }
-//                 }            
-//             }
-//             Settings.option("urls", settings_urls);
-            
             buildSettings();
             updateMenu();
         }
