@@ -12,7 +12,20 @@ var locationOptions = {
     timeout: 10000
 };
 
-var urls = Settings.option("urls");
+//var urls = Settings.option("urls");
+var urls = [
+    {
+        key: 1,
+        title: "Test",
+        url: "https://test.com"
+    },
+    {
+        key: 1,
+        title: "Test2",
+        url: "https://test.com"
+    }
+];
+Settings.option("urls", urls);
 var urlMenu = null;
 var responseCard = null;
 
@@ -103,10 +116,11 @@ function updateMenu() {
 function buildSettings() {
     Settings.config(
         { 
-            url: 'https://andrewhenry.me/pebble/urllauncher1-1.php?json=' + encodeURIComponent(JSON.stringify(Settings.option("urls")))
+            url: 'https://ahenry91.github.io/pebble_url_launcher/index.html?json=' + encodeURIComponent(JSON.stringify(Settings.option("urls"))),
         },
         function(e) {
             var config_data = JSON.parse(decodeURIComponent(e.response));
+            console.log(config_data);
             Settings.option("urls", config_data);
             buildSettings();
             updateMenu();
