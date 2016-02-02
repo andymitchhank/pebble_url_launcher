@@ -65,3 +65,7 @@ input {
     text-align: left;
     padding: 5px;
 }
+
+#url-template {
+	display: none;
+}
