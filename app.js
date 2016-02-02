@@ -48,8 +48,8 @@ window.onload = function () {
 		$("#url-list li").each( function() {
 			var url_info = $(this).children('.url-info');
 			config.push({
-				title: url_info.children(".title").html(),
-				url: url_info.children(".url").html()
+				title: url_info.children(".title").val(),
+				url: url_info.children(".url").val()
 			});
 		});
 		var url = return_to + encodeURIComponent(JSON.stringify(config));
