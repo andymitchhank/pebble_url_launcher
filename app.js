@@ -14,8 +14,9 @@ window.onload = function () {
 	    }
 	};
 
-	var data = getUrlParameter("json");
-	var return_to = getUrlParameter("return_to");
+	var data = JSON.parse(decodeURIComponent(getUrlParameter("json")));
+	var return_to = decodeURIComponent(getUrlParameter("return_to"));
+	console.log(data);
 	console.log(return_to);
 
 }
