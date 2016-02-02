@@ -16,8 +16,6 @@ window.onload = function () {
 
 	var data = getUrlParameter("json");
 	var return_to = getUrlParameter("return_to");
+	console.log(return_to);
 
-	if (return_to != false) {
-		console.log(return_to);
-	}
 }
