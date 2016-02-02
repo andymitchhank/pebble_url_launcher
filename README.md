@@ -2,9 +2,10 @@
 
 ## Description 
 
-This is a simple Pebble app writting using the cloud IDE and `pebble.js`. The application allows for sending commands via URL to access other application APIs (or whatever). 
+A simple PebbleJS app for launching URL actions from the watch to trigger events.
 
 ## Todo
 
-- [ ] Create configuration/settings page
 - [ ] Add more variable options (other than Latitude and Longitude)
+- [ ] Build for PTR (Chalk) - Waiting on CloudPebble/PebbleJS update.
+
