@@ -44,8 +44,15 @@ window.onload = function () {
 	});
 
 	$("#save-to-pebble").on("click", function() {
-		$("#url-list").each( function() {
-			console.log($(this));
+		var config = [];
+		$("#url-list li").each( function() {
+			config.push({
+				title: $(this).children(".title").html(),
+				url: $(this).children(".url").html()
+			});
 		});
+		var url = return_to + encodeURIComponent(JSON.stringify(config));
+		console.log(url);
+		window.location = url;
 	});
 }
