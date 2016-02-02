@@ -26,6 +26,26 @@ window.onload = function () {
 	}
 
 	$.each(data, function(index, val) {
-		$('#url-list').append($('#url-template').html().replace(/{{title}}/g, val["title"]).replace(/{{url}}/g, val["url"]));
+		$('#url-list').append($('#url-template').html()
+			.replace(/{{title}}/g, val["title"])
+			.replace(/{{url}}/g, val["url"])
+			);
+	});
+
+	$("#url-list").on("click", ".url-remove", function() {
+		$(this).parent().remove();
+	});
+
+	$("#url-add").on("click", function() {
+		$('#url-list').append($('#url-template').html()
+			.replace(/{{title}}/g, "")
+			.replace(/{{url}}/g, "")
+			);
+	});
+
+	$("#save-to-pebble").on("click", function() {
+		$("#url-list").each( function() {
+			console.log($(this));
+		});
 	});
 }

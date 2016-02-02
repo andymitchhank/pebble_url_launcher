@@ -1,23 +1,23 @@
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 		<script type="text/javascript" src="app.js"></script>
 		<link rel="stylesheet" type="text/css" href="style.css">
-		<style>
-
-		</style>
 	</head>
 	<body>
-		<h1>Settings</h1>
+		<h1>URL Launcher Settings</h1>
+		<button id="save-to-pebble">Save to Pebble</button>
 		<ul id="url-list">
-
 		</ul>
+		<button id="url-add">Add URL</button>
 
 		<!-- javascript templates -->
 		<div id="url-template">
 			<li>
-				<input class="title" val="{{title}}" />
-				<input class="url" val="{{url}}" />
+				<button class="url-remove">Remove URL</button>
+				<input class="title" value="{{title}}" />
+				<input class="url" value="{{url}}" />
 			</li>
 		</div>
 	</body>
