@@ -26,6 +26,6 @@ window.onload = function () {
 	}
 
 	$.each(data, function(index, val) {
-		$('#url-list').append($('#url-template').html.replace(/{{title}}/g, val["title"]).replace(/{{url}}/g, val["url"]));
+		$('#url-list').append($('#url-template').html().replace(/{{title}}/g, val["title"]).replace(/{{url}}/g, val["url"]));
 	});
 }
