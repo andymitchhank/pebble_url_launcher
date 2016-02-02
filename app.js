@@ -46,9 +46,10 @@ window.onload = function () {
 	$("#save-to-pebble").on("click", function() {
 		var config = [];
 		$("#url-list li").each( function() {
+			var url_info = $(this).children('.url-info');
 			config.push({
-				title: $(this).children(".title").html(),
-				url: $(this).children(".url").html()
+				title: url_info.children(".title").html(),
+				url: url_info.children(".url").html()
 			});
 		});
 		var url = return_to + encodeURIComponent(JSON.stringify(config));
