@@ -16,7 +16,16 @@ window.onload = function () {
 
 	var data = decodeURIComponent(getUrlParameter("json"));
 	var return_to = decodeURIComponent(getUrlParameter("return_to"));
-	console.log(data);
-	console.log(return_to);
+	if (data != undefined) {
+		data = JSON.parse(data);
+	} else {
+		data = [];
+	}
+	if (return_to == undefined) {
+		return_to = "pebblejs://close#"
+	}
 
+	$.each(data, function(index, val) {
+		$('#url-list').append($('#url-template').html.replace(/{{title}}/g, val["title"]).replace(/{{url}}/g, val["url"]));
+	});
 }
