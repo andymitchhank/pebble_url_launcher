@@ -16,11 +16,12 @@ window.onload = function () {
 
 	var data = decodeURIComponent(getUrlParameter("json"));
 	var return_to = decodeURIComponent(getUrlParameter("return_to"));
-	if (data != undefined) {
+	try {
 		data = JSON.parse(data);
-	} else {
+	} catch(e) {
 		data = [];
 	}
+
 	if (return_to == undefined) {
 		return_to = "pebblejs://close#"
 	}
