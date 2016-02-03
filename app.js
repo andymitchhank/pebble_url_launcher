@@ -1,29 +1,22 @@
 window.onload = function () {
-	var getUrlParameter = function getUrlParameter(sParam) {
-	    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-	        sURLVariables = sPageURL.split('&'),
-	        sParameterName,
-	        i;
-
-	    for (i = 0; i < sURLVariables.length; i++) {
-	        sParameterName = sURLVariables[i].split('=');
-
-	        if (sParameterName[0] === sParam) {
-	            return sParameterName[1] === undefined ? true : sParameterName[1];
-	        }
+	function getUrlParameter(variable, defaultValue) {
+	  var query = location.search.substring(1);
+	  var vars = query.split('&');
+	  for (var i = 0; i < vars.length; i++) {
+	    var pair = vars[i].split('=');
+	    if (pair[0] === variable) {
+	      return decodeURIComponent(pair[1]);
 	    }
-	};
+	  }
+	  return defaultValue || false;
+	}
 
-	var data = decodeURIComponent(getUrlParameter("json"));
-	var return_to = decodeURIComponent(getUrlParameter("return_to"));
+	var data = getUrlParameter("json");
+	
 	try {
 		data = JSON.parse(data);
 	} catch(e) {
 		data = [];
-	}
-
-	if (return_to === undefined || return_to == 'undefined' || !(return_to.indexOf('cloudpebble.net') > -1)) {
-		return_to = "pebblejs://close#"
 	}
 
 	$.each(data, function(index, val) {
@@ -53,6 +46,7 @@ window.onload = function () {
 				url: url_info.children(".url").val()
 			});
 		});
+		var return_to = getUrlParameter("return_to", "pebblejs://close#");
 		var url = return_to + encodeURIComponent(JSON.stringify(config));
 		console.log(url);
 		document.location = url;
