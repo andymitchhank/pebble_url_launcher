@@ -69,3 +69,16 @@ input {
 #url-template {
 	display: none;
 }
+
+#variable-list-header {
+  font-size: 1.1em;
+  text-align: left;
+}
+
+#variable-list {
+  margin-bottom: 30px;
+}
+
+#variable-list li {
+  text-align: left;
+}
