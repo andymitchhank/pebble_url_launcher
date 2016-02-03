@@ -12,20 +12,20 @@ var locationOptions = {
     timeout: 10000
 };
 
-//var urls = Settings.option("urls");
-var urls = [
-    {
-        key: 1,
-        title: "Test",
-        url: "https://test.com"
-    },
-    {
-        key: 1,
-        title: "Test2",
-        url: "https://test.com"
-    }
-];
-Settings.option("urls", urls);
+var urls = Settings.option("urls");
+// var urls = [
+//     {
+//         key: 1,
+//         title: "Test",
+//         url: "https://test.com"
+//     },
+//     {
+//         key: 1,
+//         title: "Test2",
+//         url: "https://test.com"
+//     }
+// ];
+// Settings.option("urls", urls);
 var urlMenu = null;
 var responseCard = null;
 
