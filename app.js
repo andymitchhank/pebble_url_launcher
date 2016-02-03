@@ -55,6 +55,6 @@ window.onload = function () {
 		});
 		var url = return_to + encodeURIComponent(JSON.stringify(config));
 		console.log(url);
-		window.location = url;
+		document.location = url;
 	});
 }
