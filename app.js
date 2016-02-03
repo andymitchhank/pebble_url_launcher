@@ -22,7 +22,7 @@ window.onload = function () {
 		data = [];
 	}
 
-	if (return_to == undefined) {
+	if (return_to === undefined || return_to == 'undefined' || !(return_to.indexOf('cloudpebble.net') > -1)) {
 		return_to = "pebblejs://close#"
 	}
 
